@@ -118,11 +118,21 @@ h1 {
 }
 
 /* === RESPONSIVO === */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  #logo-licao-plus {
+    width: 90vw;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  #logo-licao-plus {
+    width: 100vw;
+    height: auto;
+  }
   h1 { font-size: 1.6rem; }
   .book { width: 120px; height: 180px; }
   .book-title { font-size: 0.8rem; }
-  #logo-licao-plus { width: 140px; height: 48px; }
 }
 </style>
 </head>
@@ -130,79 +140,76 @@ h1 {
 
 <!-- LOGIN -->
 <div id="login">
-  <!-- LOGO Lição+ — versão grande com fundo branco de página -->
-<svg id="logo-licao-plus" xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 720 360" style="display:block;margin:0 auto 24px;">
-  <defs>
-    <linearGradient id="gradSpine" x1="0" x2="1">
-      <stop offset="0%" stop-color="#0b5e56"/>
-      <stop offset="100%" stop-color="#0ea5a4"/>
-    </linearGradient>
-    <linearGradient id="gradCover" x1="0" x2="1">
-      <stop offset="0%" stop-color="#0ea5a4"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </linearGradient>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity="0.25"/>
-    </filter>
-    <style>
-      @keyframes abrirCapa {
-        0% { transform: rotateY(0deg); }
-        100% { transform: rotateY(-140deg); }
-      }
-      @keyframes brilharMais {
-        0%, 100% { opacity: 0.6; }
-        50% { opacity: 1; }
-      }
-      #capa-animada {
-        transform-origin: left center;
-        animation: abrirCapa 2.5s ease-out forwards;
-        transform-box: fill-box;
-      }
-      #plus-simbolo circle {
-        animation: brilharMais 3s infinite;
-      }
-    </style>
-  </defs>
+  <!-- LOGO Lição+ — versão ampliada e animada -->
+  <svg id="logo-licao-plus" xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 720 360" style="display:block;margin:0 auto 24px;">
+    <defs>
+      <linearGradient id="gradSpine" x1="0" x2="1">
+        <stop offset="0%" stop-color="#0b5e56"/>
+        <stop offset="100%" stop-color="#0ea5a4"/>
+      </linearGradient>
+      <linearGradient id="gradCover" x1="0" x2="1">
+        <stop offset="0%" stop-color="#0ea5a4"/>
+        <stop offset="100%" stop-color="#06b6d4"/>
+      </linearGradient>
+      <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity="0.25"/>
+      </filter>
+      <style>
+        @keyframes abrirCapa {
+          0% { transform: rotateY(0deg); }
+          100% { transform: rotateY(-140deg); }
+        }
+        @keyframes brilharMais {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
+        }
+        #capa-animada {
+          transform-origin: left center;
+          animation: abrirCapa 2.5s ease-out forwards;
+          transform-box: fill-box;
+        }
+        #plus-simbolo circle {
+          animation: brilharMais 3s infinite;
+        }
+      </style>
+    </defs>
 
-  <!-- Grupo do livro ampliado -->
-  <g transform="translate(80,40)" filter="url(#shadow)">
-    <!-- Lombada -->
-    <path d="M0 20 L56 0 L64 280 L0 260 Z" fill="url(#gradSpine)"/>
+    <!-- Grupo do livro ampliado -->
+    <g transform="translate(80,40)" filter="url(#shadow)">
+      <!-- Lombada -->
+      <path d="M0 20 L56 0 L64 280 L0 260 Z" fill="url(#gradSpine)"/>
 
-    <!-- Páginas brancas (fundo da capa) -->
-    <rect x="64" y="4" width="240" height="272" rx="6" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+      <!-- Páginas brancas -->
+      <rect x="64" y="4" width="240" height="272" rx="6" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
 
-    <!-- Capa animada -->
-    <g id="capa-animada">
-      <path d="M56 0 L280 20 Q300 24 312 40 L352 300 Q340 320 304 312 L64 280 Q56 260 56 0 Z" fill="url(#gradCover)"/>
-      <!-- brilho suave -->
-      <path d="M76 24 C168 20, 248 44, 296 72 L296 92 C244 60, 156 36, 76 40 Z" fill="rgba(255,255,255,0.18)"/>
+      <!-- Capa animada -->
+      <g id="capa-animada">
+        <path d="M56 0 L280 20 Q300 24 312 40 L352 300 Q340 320 304 312 L64 280 Q56 260 56 0 Z" fill="url(#gradCover)"/>
+        <!-- brilho -->
+        <path d="M76 24 C168 20, 248 44, 296 72 L296 92 C244 60, 156 36, 76 40 Z" fill="rgba(255,255,255,0.18)"/>
+      </g>
+
+      <!-- Páginas laterais -->
+      <g transform="translate(312,40)">
+        <rect x="0" y="4" width="24" height="220" rx="4" fill="#fafafa"/>
+        <rect x="4" y="28" width="16" height="8" fill="#f3f4f6"/>
+        <rect x="4" y="68" width="16" height="8" fill="#f3f4f6"/>
+        <rect x="4" y="108" width="16" height="8" fill="#f3f4f6"/>
+        <rect x="4" y="148" width="16" height="8" fill="#f3f4f6"/>
+        <rect x="4" y="188" width="16" height="8" fill="#f3f4f6"/>
+      </g>
     </g>
 
-    <!-- Páginas visíveis laterais -->
-    <g transform="translate(312,40)">
-      <rect x="0" y="4" width="24" height="220" rx="4" fill="#fafafa"/>
-      <rect x="4" y="28" width="16" height="8" fill="#f3f4f6"/>
-      <rect x="4" y="68" width="16" height="8" fill="#f3f4f6"/>
-      <rect x="4" y="108" width="16" height="8" fill="#f3f4f6"/>
-      <rect x="4" y="148" width="16" height="8" fill="#f3f4f6"/>
-      <rect x="4" y="188" width="16" height="8" fill="#f3f4f6"/>
+    <!-- Texto e símbolo + -->
+    <g transform="translate(400,160)">
+      <text x="15" y="-16" font-family="Segoe UI, Arial, sans-serif" font-weight="700" font-size="88" fill="#ffffff" letter-spacing="2">Lição</text>
+      <g id="plus-simbolo" transform="translate(280,-52)">
+        <circle cx="0" cy="0" r="48" fill="#22d3ee"/>
+        <path d="M-16 0h32M0-16v32" stroke="white" stroke-width="8" stroke-linecap="round"/>
+      </g>
+      <text x="15" y="84" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="rgba(255,255,255,0.9)">Resumos da Lição</text>
     </g>
-  </g>
-
-  <!-- Texto e símbolo + -->
-  <g transform="translate(400,160)">
-    <text x="15" y="-16" font-family="Segoe UI, Arial, sans-serif" font-weight="700" font-size="88" fill="#ffffff" letter-spacing="2">Lição</text>
-    <g id="plus-simbolo" transform="translate(280,-52)">
-      <circle cx="0" cy="0" r="48" fill="#22d3ee"/>
-      <path d="M-16 0h32M0-16v32" stroke="white" stroke-width="8" stroke-linecap="round"/>
-    </g>
-    <text x="15" y="84" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="rgba(255,255,255,0.9)">Resumos da Lição</text>
-  </g>
-</svg>
-
-
-
+  </svg>
 
   <h2 style="margin-top:16px;">🔒 Acesso às Lições</h2>
   <p>Digite a senha para entrar:</p>
