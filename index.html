@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>📚 Estante de Lições Bíblicas</title>
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to bottom, #f0f9ff, #e0f2fe);
+  color: #0e7490;
+  overflow-x: hidden;
+}
+
+/* === LOGIN === */
+#login {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(14,116,144,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  z-index: 10;
+}
+#login input {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+#login button {
+  margin-top: 12px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #22d3ee;
+  color: #064e3b;
+  font-weight: bold;
+  cursor: pointer;
+}
+#login button:hover { background: #67e8f9; }
+#erro { color: #fee2e2; margin-top:10px; display:none; }
+
+/* === CONTEÚDO === */
+.container {
+  display: none;
+  padding: 20px;
+}
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #0e7490;
+}
+.section {
+  margin-bottom: 40px;
+}
+.section h2 {
+  margin-left: 12px;
+  font-size: 1.4rem;
+  border-left: 6px solid #38bdf8;
+  padding-left: 10px;
+}
+
+/* === ESTANTE (CARROSSEL) === */
+.bookshelf {
+  display: flex;
+  overflow-x: auto;
+  gap: 18px;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+.bookshelf::-webkit-scrollbar {
+  height: 8px;
+}
+.bookshelf::-webkit-scrollbar-thumb {
+  background: #38bdf8;
+  border-radius: 4px;
+}
+
+/* === LIVROS === */
+.book {
+  flex: 0 0 auto;
+  width: 140px;
+  height: 210px;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.book:hover {
+  transform: scale(1.05);
+  box-shadow: 6px 6px 15px rgba(0,0,0,0.3);
+}
+.book img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.book-title {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(14,116,144,0.8);
+  color: white;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 6px 0;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 600px) {
+  h1 { font-size: 1.6rem; }
+  .book { width: 120px; height: 180px; }
+  .book-title { font-size: 0.8rem; }
+  #logo-licao-plus { width: 140px; height: 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <!-- LOGO Lição+ — versão grande com fundo branco de página -->
+<svg id="logo-licao-plus" xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 720 360" style="display:block;margin:0 auto 24px;">
+  <defs>
+    <linearGradient id="gradSpine" x1="0" x2="1">
+      <stop offset="0%" stop-color="#0b5e56"/>
+      <stop offset="100%" stop-color="#0ea5a4"/>
+    </linearGradient>
+    <linearGradient id="gradCover" x1="0" x2="1">
+      <stop offset="0%" stop-color="#0ea5a4"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+    <style>
+      @keyframes abrirCapa {
+        0% { transform: rotateY(0deg); }
+        100% { transform: rotateY(-140deg); }
+      }
+      @keyframes brilharMais {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 1; }
+      }
+      #capa-animada {
+        transform-origin: left center;
+        animation: abrirCapa 2.5s ease-out forwards;
+        transform-box: fill-box;
+      }
+      #plus-simbolo circle {
+        animation: brilharMais 3s infinite;
+      }
+    </style>
+  </defs>
+
+  <!-- Grupo do livro ampliado -->
+  <g transform="translate(80,40)" filter="url(#shadow)">
+    <!-- Lombada -->
+    <path d="M0 20 L56 0 L64 280 L0 260 Z" fill="url(#gradSpine)"/>
+
+    <!-- Páginas brancas (fundo da capa) -->
+    <rect x="64" y="4" width="240" height="272" rx="6" fill="#ffffff" stroke="#e5e7eb" stroke-width="2"/>
+
+    <!-- Capa animada -->
+    <g id="capa-animada">
+      <path d="M56 0 L280 20 Q300 24 312 40 L352 300 Q340 320 304 312 L64 280 Q56 260 56 0 Z" fill="url(#gradCover)"/>
+      <!-- brilho suave -->
+      <path d="M76 24 C168 20, 248 44, 296 72 L296 92 C244 60, 156 36, 76 40 Z" fill="rgba(255,255,255,0.18)"/>
+    </g>
+
+    <!-- Páginas visíveis laterais -->
+    <g transform="translate(312,40)">
+      <rect x="0" y="4" width="24" height="220" rx="4" fill="#fafafa"/>
+      <rect x="4" y="28" width="16" height="8" fill="#f3f4f6"/>
+      <rect x="4" y="68" width="16" height="8" fill="#f3f4f6"/>
+      <rect x="4" y="108" width="16" height="8" fill="#f3f4f6"/>
+      <rect x="4" y="148" width="16" height="8" fill="#f3f4f6"/>
+      <rect x="4" y="188" width="16" height="8" fill="#f3f4f6"/>
+    </g>
+  </g>
+
+  <!-- Texto e símbolo + -->
+  <g transform="translate(400,160)">
+    <text x="0" y="-16" font-family="Segoe UI, Arial, sans-serif" font-weight="700" font-size="88" fill="#ffffff" letter-spacing="2">Lição</text>
+    <g id="plus-simbolo" transform="translate(280,-52)">
+      <circle cx="0" cy="0" r="48" fill="#22d3ee"/>
+      <path d="M-16 0h32M0-16v32" stroke="white" stroke-width="8" stroke-linecap="round"/>
+    </g>
+    <text x="0" y="84" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="rgba(255,255,255,0.9)">Centro de Resumos e Projetos</text>
+  </g>
+</svg>
+
+
+
+
+  <h2 style="margin-top:16px;">🔒 Acesso às Lições</h2>
+  <p>Digite a senha para entrar:</p>
+  <input type="password" id="senha" placeholder="Senha de acesso" />
+  <button onclick="verificarSenha()">Entrar</button>
+  <p id="erro">Senha incorreta.</p>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="container" id="conteudo">
+  <h1>📚 Estante de Lições Bíblicas</h1>
+
+  <!-- Adultos -->
+  <div class="section">
+    <h2>Lições dos Adultos</h2>
+    <div class="bookshelf">
+      <a class="book" href="https://profkleidivaldo.github.io/licao-adultos/" target="_blank">
+        <img src="https://www.churchofjesuschrist.org/imgs/66e3bdfa2523db99e7a8cb2cd4a2f13d9f3a489e/full/%21500%2C/0/default">
+        <div class="book-title">Presente e Propósito</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/4f1b47b72752b3b06c50d7c28e8d002dbbd2f9f3/full/%21500%2C/0/default">
+        <div class="book-title">Graça e Redenção</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/5dc1d5422c33d10e1f9e84a19eea908bba276bc6/full/%21500%2C/0/default">
+        <div class="book-title">Esperança Viva</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Jovens -->
+  <div class="section">
+    <h2>Lições dos Jovens</h2>
+    <div class="bookshelf">
+      <a class="book" href="https://profkleidivaldo.github.io/licao-jovens/" target="_blank">
+        <img src="https://www.churchofjesuschrist.org/imgs/5eabc567e13ed14c03a8d9cba5d4b4131c6a41e4/full/%21500%2C/0/default">
+        <div class="book-title">Caminhando com Cristo</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/4e32b121a4d0dc070a402cf0190b98f305b1b5aa/full/%21500%2C/0/default">
+        <div class="book-title">Coragem e Fé</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/0d99e1b2f1f86cc3c5e8cb97818b292df47a43d3/full/%21500%2C/0/default">
+        <div class="book-title">Raízes do Evangelho</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Adolescentes -->
+  <div class="section">
+    <h2>Lições dos Adolescentes</h2>
+    <div class="bookshelf">
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/390fa542b9e19f7641c45c3d87af0378e2b3432a/full/%21500%2C/0/default">
+        <div class="book-title">Amigos de Jesus</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/499f4346ef8725f8ee13d932b7ab57b21a9b7e1b/full/%21500%2C/0/default">
+        <div class="book-title">Luz e Verdade</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Juvenis -->
+  <div class="section">
+    <h2>Lições dos Juvenis</h2>
+    <div class="bookshelf">
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/21e3ffb0bb9e3c908c8bbbcf33af014f5cfebec5/full/%21500%2C/0/default">
+        <div class="book-title">Vivendo a Palavra</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/60b0bbf4b070c7f404c96a27d7e72b4953c62b64/full/%21500%2C/0/default">
+        <div class="book-title">Missão e Serviço</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Primários -->
+  <div class="section">
+    <h2>Lições dos Primários</h2>
+    <div class="bookshelf">
+      <a class="book" href="https://profkleidivaldo.github.io/licao/" target="_blank">
+        <img src="https://www.churchofjesuschrist.org/imgs/77f862288452e79cb2bd92d2994c18885b0cfb2b/full/%21500%2C/0/default">
+        <div class="book-title">4ºTr.2025-Jesus, Presente de Deus</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/4ecb27a48a1a2044b60a1d357bc41a8c66975fcb/full/%21500%2C/0/default">
+        <div class="book-title">Histórias de Amor</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Jardim da Infância -->
+  <div class="section">
+    <h2>Jardim da Infância</h2>
+    <div class="bookshelf">
+      <a class="book" href="https://profkleidivaldo.github.io/licao-jardim/" target="_blank">
+        <img src="https://www.churchofjesuschrist.org/imgs/2905ddf08a68bda1cd5076b0d35a6ac49fbe70d3/full/%21500%2C/0/default">
+        <div class="book-title">Amor de Jesus</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/0dd33f35a4ef7289e1f9e0f6ee3f23c53120a66a/full/%21500%2C/0/default">
+        <div class="book-title">Jesus é Meu Amigo</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Rol do Berço -->
+  <div class="section">
+    <h2>Rol do Berço</h2>
+    <div class="bookshelf">
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/47952f5f6e2a98268ee8bdaae33a24df47f31c5e/full/%21500%2C/0/default">
+        <div class="book-title">Pequeninos de Jesus</div>
+      </a>
+      <a class="book" href="#">
+        <img src="https://www.churchofjesuschrist.org/imgs/2e83bde33d5a8ec4df83efbfbac1452a5b34b4b9/full/%21500%2C/0/default">
+        <div class="book-title">Brilhando no Amor</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SENHA_CORRETA = "cereja";
+function verificarSenha() {
+  const senha = document.getElementById("senha").value.trim();
+  const erro = document.getElementById("erro");
+  if (senha === SENHA_CORRETA) {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("conteudo").style.display = "block";
+  } else {
+    erro.style.display = "block";
+  }
+}
+</script>
+
+</body>
+</html>
